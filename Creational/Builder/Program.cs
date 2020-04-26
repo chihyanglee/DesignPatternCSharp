@@ -20,7 +20,7 @@ namespace Builder
             this.builder = builder;
         }
 
-        public abstractProduct BuildProduct()
+        public AbstractProduct BuildProduct()
         {
             // here we can decide the order of builder inside director
             var product = new Product();
@@ -68,7 +68,7 @@ namespace Builder
     #endregion
 
     #region product
-    abstract class abstractProduct
+    abstract class AbstractProduct
     {
         PartA partA;
         PartB partB;
@@ -89,7 +89,7 @@ namespace Builder
         }
     }
 
-    class Product : abstractProduct
+    class Product : AbstractProduct
     {
 
     }
