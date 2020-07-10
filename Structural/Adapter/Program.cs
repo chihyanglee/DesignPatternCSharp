@@ -70,3 +70,87 @@ namespace Adapter
         }
     }
 }
+
+namespace Adapter.Peg
+{
+    class ClientCode
+    {
+        static void ClientCodeMain()
+        {
+            var roundPeg = new RoundPeg(4);
+            var squarePeg = new SquarePeg(3);
+
+            // 欲例用IsHoleFit測量squarePeg是否放得進去
+
+            // first test
+            // compiler error => isholefit cannot accept type squarePeg
+            // var isSquareFit = IsHoleFit(squarePeg);
+
+            // => make a adapter to fix this problen
+            var squarePegAdapter = new SquarePegAdapter(squarePeg);
+            var isSquareFit = IsHoleFit(squarePegAdapter);
+        }
+
+        static bool IsHoleFit(IRoundPeg roundPeg)
+        {
+            int holeRadius = 4;
+            return roundPeg.GetRadius() <= holeRadius;
+        }
+    }
+
+    class SquarePegAdapter: IRoundPeg
+    {
+        private SquarePeg squarePeg;
+
+        public SquarePegAdapter(SquarePeg squarePeg)
+        {
+            this.squarePeg = squarePeg;
+        }
+
+        public int GetRadius()
+        {
+            return (int)(this.squarePeg.GetWidth() * Math.Sqrt(2) / 2);
+        }
+    }
+
+
+
+    interface IRoundPeg
+    {
+        int GetRadius();
+    }
+
+    class RoundPeg: IRoundPeg
+    {
+        private int radius;
+        public RoundPeg(int radius)
+        {
+            this.radius = radius;
+        }
+
+        public int GetRadius()
+        {
+            return radius;
+        }
+    }
+
+    interface ISquarePeg
+    {
+        int GetWidth();
+    }
+
+    class SquarePeg: ISquarePeg
+    {
+        private int width;
+        public SquarePeg(int width)
+        {
+            this.width = width;
+        }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+    }
+
+}
